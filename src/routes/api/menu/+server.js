@@ -1,8 +1,8 @@
-import { MONGO_URI } from "$env/static/private";
+import { env } from "$env/dynamic/private";
 import { json } from "@sveltejs/kit";
 import { MongoClient } from "mongodb";
 
-const client = new MongoClient(MONGO_URI);
+const client = new MongoClient(env.MONGO_URI);
 const db = client.db("savoir-vivre");
 
 const menuCollection = db.collection("menu");
