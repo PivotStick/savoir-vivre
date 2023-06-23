@@ -24,6 +24,16 @@
 		categories = categories;
 	};
 
+	const resetOrders = () => {
+		categories.forEach((category) => {
+			category.items.forEach((item) => {
+				item.orders = [];
+			});
+		});
+
+		categories = categories;
+	};
+
 	const save = async () => {
 		saving = true;
 
@@ -45,8 +55,9 @@
 
 <div class="page">
 	<div class="actions">
-		<button on:click={reset}><i class="fa fa-sync" /> Reset</button>
-		<button on:click={invalidateAll}><i class="fa fa-sync" /> Refetch</button>
+		<button on:click={reset}><i class="fa fa-trash" /> Reset</button>
+		<button on:click={invalidateAll}><i class="fa fa-sync" /> Sync</button>
+		<button on:click={resetOrders}><i class="fa fa-hand" /> Reset Orders</button>
 	</div>
 
 	<ul class="categories">

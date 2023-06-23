@@ -1,22 +1,40 @@
 <script>
+	// @ts-ignore
 	export let data;
 
 	const key = "__USERNAME__";
 
-	let name = localStorage.getItem(key) || prompt("Ton nom 😎");
-
-	$: if (name) localStorage.setItem(key, name);
-
 	let saving = false;
+	let name = (localStorage.getItem(key) || prompt("Ton nom 😎"))?.toLowerCase();
+
+	/** @type {Record<string, string>} */
+	let orders = data.menu.categories.reduce((a, c) => {
+		c.items.forEach((item) => {
+			// @ts-ignore
+			if (item.orders.includes(name)) {
+				// @ts-ignore
+				a[c.name] = item.name;
+			}
+		});
+		return a;
+	}, {});
+
+	// @ts-ignore
+	$: if (name) {
+		localStorage.setItem(key, name);
+	}
 
 	const save = async () => {
 		saving = true;
 
 		try {
 			const res = await fetch("/api/menu", {
-				method: "PUT",
+				method: "PATCH",
 				headers: { "content-type": "application/json" },
-				body: JSON.stringify(data.menu.categories)
+				body: JSON.stringify({
+					name,
+					orders: Object.keys(orders).map((category) => `${category}.${orders[category]}`)
+				})
 			}).then((res) => res.json());
 
 			console.log(res);
@@ -30,7 +48,15 @@
 
 <div class="page">
 	{#if name}
-		<input class="name" type="text" bind:value={name} />
+		<div class="actions">
+			<button
+				on:click={() => {
+					name = prompt("Ton nouveau nom 😎")?.toLowerCase() || name;
+				}}
+			>
+				<i class="fa fa-signature" /> Changer de nom
+			</button>
+		</div>
 
 		<ul class="categories">
 			{#each data.menu.categories as category}
@@ -44,17 +70,8 @@
 									<input
 										type="radio"
 										name={category.name}
-										checked={item.orders.includes(name)}
-										on:input={() => {
-											// @ts-ignore
-											category.items.forEach((i) => {
-												// @ts-ignore
-												i.orders = i.orders.filter((o) => o !== name);
-											});
-
-											item.orders.push(name);
-											item.orders = item.orders;
-										}}
+										value={item.name}
+										bind:group={orders[category.name]}
 									/>
 								</label>
 							</li>
@@ -65,10 +82,10 @@
 		</ul>
 	{/if}
 
-	<div class="actions">
-		<button disabled={saving} class="success" on:click={save}
-			><i class="fa fa-save" /> Enregistrer mon choix</button
-		>
+	<div class="bottom-actions">
+		<button disabled={saving} class="success" on:click={save}>
+			<i class="fa fa-save" /> Enregistrer mon choix
+		</button>
 	</div>
 </div>
 
@@ -76,11 +93,14 @@
 	.page {
 		padding: 1.5rem;
 
-		> .name {
-			margin-bottom: 1rem;
+		> .actions {
+			margin-bottom: 3rem;
+			display: flex;
+			flex-wrap: wrap;
+			gap: 1rem;
 		}
 
-		> .actions {
+		> .bottom-actions {
 			display: flex;
 			flex-wrap: wrap;
 			gap: 1rem;
