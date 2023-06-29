@@ -5,7 +5,7 @@
 	const key = "__USERNAME__";
 
 	let saving = false;
-	let name = (localStorage.getItem(key) || prompt("Ton nom 😎"))?.toLowerCase();
+	let name = (localStorage.getItem(key) || prompt("Ton nom 😎"))?.toLowerCase().slice(0, 15);
 
 	/** @type {Record<string, string>} */
 	let orders = data.menu.categories.reduce((a, c) => {
@@ -51,10 +51,11 @@
 		<div class="actions">
 			<button
 				on:click={() => {
-					name = prompt("Ton nouveau nom 😎")?.toLowerCase() || name;
+					name = prompt("Ton nouveau nom 😎")?.toLowerCase().slice(0, 15) || name;
 				}}
 			>
-				<i class="fa fa-signature" /> Changer de nom
+				<i class="fa fa-signature" />
+				{name}
 			</button>
 		</div>
 
@@ -80,13 +81,13 @@
 				</li>
 			{/each}
 		</ul>
-	{/if}
 
-	<div class="bottom-actions">
-		<button disabled={saving} class="success" on:click={save}>
-			<i class="fa fa-save" /> Enregistrer mon choix
-		</button>
-	</div>
+		<div class="bottom-actions">
+			<button disabled={saving} class="success" on:click={save}>
+				<i class="fa fa-save" /> Enregistrer mon choix
+			</button>
+		</div>
+	{/if}
 </div>
 
 <style lang="scss">
