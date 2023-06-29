@@ -3,6 +3,10 @@
 	import "../app.scss";
 </script>
 
+<svelte:head>
+	<title>🍽️ Savoir Vivre 🍔</title>
+</svelte:head>
+
 <div class="layout">
 	<nav>
 		<a href="/"><i class="fa fa-utensils" /></a>
