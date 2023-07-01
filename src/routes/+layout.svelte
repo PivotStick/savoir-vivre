@@ -1,6 +1,7 @@
 <script>
 	import "@fortawesome/fontawesome-free/css/all.min.css";
 	import "../app.scss";
+	import { nav } from "$lib/stores/nav";
 </script>
 
 <svelte:head>
@@ -9,8 +10,9 @@
 
 <div class="layout">
 	<nav>
-		<a href="/"><i class="fa fa-utensils" /></a>
-		<a href="/menu"><i class="fa fa-burger" /></a>
+		{#each $nav as link (link.href)}
+			<a href={link.href}><i class="fa {link.icon}" /></a>
+		{/each}
 	</nav>
 	<main>
 		<slot />
@@ -70,5 +72,7 @@
 
 	main {
 		overflow: auto;
+
+		--main-padding: 1.5rem;
 	}
 </style>

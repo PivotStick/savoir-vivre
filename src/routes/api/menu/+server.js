@@ -1,20 +1,11 @@
-import { env } from "$env/dynamic/private";
 import { json } from "@sveltejs/kit";
-import { MongoClient } from "mongodb";
-
-const client = new MongoClient(env.MONGO_URI);
-const db = client.db("savoir-vivre");
-
-/**
- * @type {import("mongodb").Collection<Menu>}
- */
-const menuCollection = db.collection("menu");
+import { db } from "../db.js";
 
 export const GET = async () => {
-	let menu = await menuCollection.findOne();
+	let menu = await db.menus.findOne();
 
 	if (!menu) {
-		await menuCollection.insertOne({
+		await db.menus.insertOne({
 			categories: [
 				{ name: "Entrée", items: [] },
 				{ name: "Plats", items: [] },
@@ -22,7 +13,7 @@ export const GET = async () => {
 			]
 		});
 
-		menu = await menuCollection.findOne();
+		menu = await db.menus.findOne();
 	}
 
 	return json(menu);
@@ -30,7 +21,7 @@ export const GET = async () => {
 
 export const PUT = async ({ request }) => {
 	const body = await request.json();
-	const result = await menuCollection.updateOne({}, { $set: { categories: body } });
+	const result = await db.menus.updateOne({}, { $set: { categories: body } });
 
 	return json(result);
 };
@@ -41,7 +32,7 @@ export const PATCH = async ({ request }) => {
 	 */
 	const { name, orders } = await request.json();
 
-	const menu = await menuCollection.findOne();
+	const menu = await db.menus.findOne();
 	if (!menu) throw new Error("No menu");
 
 	menu.categories.forEach((category) => {
@@ -62,7 +53,7 @@ export const PATCH = async ({ request }) => {
 		}
 	});
 
-	const results = await menuCollection.updateOne(
+	const results = await db.menus.updateOne(
 		{ _id: menu._id },
 		{ $set: { categories: menu.categories } }
 	);

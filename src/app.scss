@@ -2,7 +2,8 @@
 	$palette: (
 		neutral: rgb(76, 76, 158),
 		success: rgb(76, 158, 94),
-		danger: rgb(158, 76, 76)
+		danger: rgb(158, 76, 76),
+		warning: rgb(186, 157, 68)
 	)
 );
 
@@ -25,7 +26,7 @@
 	box-sizing: border-box;
 	color: inherit;
 
-	transition: none cubic-bezier(0.1, 1.25, 0.25, 1) 600ms;
+	transition: none cubic-bezier(0.1, 1.35, 0.25, 1) 600ms;
 }
 
 ul,

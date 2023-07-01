@@ -92,7 +92,7 @@
 
 <style lang="scss">
 	.page {
-		padding: 1.5rem;
+		padding: var(--main-padding);
 
 		> .actions {
 			margin-bottom: 3rem;

@@ -1,17 +1,10 @@
 <script>
+	import { v4 } from "uuid";
 	import { invalidateAll } from "$app/navigation";
+	import MenuItemImage from "$lib/components/MenuItemImage.svelte";
 
 	export let data;
 
-	/**
-	 * @type {{
-	 *  name: string;
-	 *  items: {
-	 *      name: string;
-	 *      orders: string[];
-	 *  }[];
-	 * }[]}
-	 */
 	$: categories = data.menu.categories;
 
 	let saving = false;
@@ -19,16 +12,6 @@
 	const reset = () => {
 		categories.forEach((category) => {
 			category.items = [];
-		});
-
-		categories = categories;
-	};
-
-	const resetOrders = () => {
-		categories.forEach((category) => {
-			category.items.forEach((item) => {
-				item.orders = [];
-			});
 		});
 
 		categories = categories;
@@ -55,9 +38,8 @@
 
 <div class="page">
 	<div class="actions">
-		<button on:click={reset}><i class="fa fa-trash" /> Reset</button>
-		<button on:click={invalidateAll}><i class="fa fa-sync" /> Sync</button>
-		<button on:click={resetOrders}><i class="fa fa-hand" /> Reset Orders</button>
+		<button on:click={reset} class="danger"><i class="fa fa-trash" /></button>
+		<button on:click={invalidateAll}><i class="fa fa-sync" /></button>
 	</div>
 
 	<ul class="categories">
@@ -68,16 +50,13 @@
 					{#each category.items as item}
 						<li class="items__item">
 							<div class="details">
+								<div class="img">
+									<MenuItemImage updatable bind:src={item.image} />
+								</div>
 								<input class="name" type="text" bind:value={item.name} />
-
-								{#if item.orders.length}
-									<ul class="items__orders">
-										<li class="count">{item.orders.length}</li>
-										{#each item.orders as order}
-											<li>{order}</li>
-										{/each}
-									</ul>
-								{/if}
+								<div class="price">
+									€ <input type="number" inputmode="numeric" bind:value={item.price} />
+								</div>
 							</div>
 							<div class="items__actions">
 								<i
@@ -92,7 +71,7 @@
 					<li class="items__add">
 						<button
 							on:click={() => {
-								category.items.push({ name: "", orders: [] });
+								category.items.push({ id: v4(), name: "", image: "", price: "0" });
 								category.items = category.items;
 							}}><i class="fa fa-plus" /></button
 						>
@@ -109,19 +88,15 @@
 
 <style lang="scss">
 	.page {
-		padding: 1.5rem;
-		padding-bottom: calc(1.5rem + 3rem);
+		padding: var(--main-padding);
+		padding-bottom: calc(var(--main-padding) + 3rem);
 	}
 
 	.actions {
 		margin-bottom: 2rem;
-		display: flex;
-		flex-wrap: wrap;
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
 		gap: 0.5rem;
-
-		button {
-			flex: 1;
-		}
 	}
 
 	.categories {
@@ -154,6 +129,24 @@
 			display: grid;
 			grid-template-columns: 1fr auto;
 			gap: 1rem;
+
+			.details {
+				display: grid;
+				align-items: center;
+				gap: inherit;
+				grid-template-columns: auto 1fr;
+				grid-template-rows: auto auto;
+
+				.img {
+					grid-row: 1 / -1;
+				}
+
+				.price {
+					display: flex;
+					align-items: center;
+					gap: inherit;
+				}
+			}
 		}
 
 		&__actions {
@@ -177,27 +170,6 @@
 
 				&:active {
 					opacity: 0.5;
-				}
-			}
-		}
-
-		&__orders {
-			display: flex;
-			flex-wrap: wrap;
-			gap: 0.5rem;
-			margin-top: 0.5rem;
-
-			li {
-				font-size: 0.8rem;
-				font-weight: 700;
-				background-color: var(--color-200);
-				color: var(--on-color-200);
-				padding: 0.25rem 0.75rem;
-				border-radius: 2rem;
-
-				&.count {
-					background-color: var(--color-900);
-					color: var(--on-color-900);
 				}
 			}
 		}

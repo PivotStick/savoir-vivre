@@ -1,3 +1,5 @@
+export const ssr = false;
+
 export const load = async ({ fetch }) => {
 	/**
 	 * @type {Menu}

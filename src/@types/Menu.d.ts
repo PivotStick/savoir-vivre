@@ -2,8 +2,10 @@ type Menu = {
 	categories: {
 		name: string;
 		items: {
+			id: string;
 			name: string;
-			orders: string[];
+			image: string;
+			price: string;
 		}[];
 	}[];
 };
