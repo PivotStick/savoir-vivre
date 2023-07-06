@@ -1,9 +1,9 @@
 import { z } from "zod";
-import { sign } from "jsonwebtoken";
-import { db } from "../../../lib/db.js";
+import * as jwt from "jsonwebtoken";
 import { crypto } from "$lib/crypto.js";
 import { env } from "$env/dynamic/private";
 import { fail, redirect } from "@sveltejs/kit";
+import { db } from "$lib/db.js";
 
 const schema = z.object({
 	identifier: z.string().trim().nonempty("required"),
@@ -37,7 +37,7 @@ export const actions = {
 			return fail(400, { password: ["wrong"] });
 		}
 
-		event.cookies.set("jwt", sign({ id: user._id }, env.JWT_SECRET));
+		event.cookies.set("jwt", jwt.sign({ id: user._id }, env.JWT_SECRET));
 
 		throw redirect(302, "/admin");
 	}

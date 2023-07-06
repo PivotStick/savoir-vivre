@@ -1,5 +1,5 @@
+import { db } from "$lib/db.js";
 import { json } from "@sveltejs/kit";
-import { db } from "../../../lib/db.js";
 
 export const GET = async () => {
 	let menu = await db.menus.findOne();

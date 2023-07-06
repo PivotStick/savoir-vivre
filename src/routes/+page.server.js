@@ -1,6 +1,6 @@
-import { fail, json, redirect } from "@sveltejs/kit";
+import { db } from "$lib/db";
+import { fail, redirect } from "@sveltejs/kit";
 import { z } from "zod";
-import { db } from "../lib/db";
 
 const schema = z.object({
 	name: z.string().trim().nonempty("Ce champ est requis"),
