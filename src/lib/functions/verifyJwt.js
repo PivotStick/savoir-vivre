@@ -1,13 +1,13 @@
 import { env } from "$env/dynamic/private";
 import { db } from "$lib/db";
-import { verify } from "jsonwebtoken";
+import * as jwt from "jsonwebtoken";
 import { ObjectId } from "mongodb";
 
 /**
- * @param {string} jwt
+ * @param {string} token
  */
-export const verifyJwt = async (jwt) => {
-	const payload = verify(jwt, env.JWT_SECRET);
+export const verifyJwt = async (token) => {
+	const payload = jwt.verify(token, env.JWT_SECRET);
 
 	if (typeof payload !== "string") {
 		return await db.users.findOne({
