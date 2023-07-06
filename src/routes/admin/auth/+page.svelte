@@ -1,5 +1,4 @@
 <script>
-	import { browser } from "$app/environment";
 	import { enhance } from "$app/forms";
 	import Input from "$lib/components/Input.svelte";
 

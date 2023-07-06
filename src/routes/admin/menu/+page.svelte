@@ -2,6 +2,7 @@
 	import { v4 } from "uuid";
 	import { invalidateAll } from "$app/navigation";
 	import MenuItemImage from "$lib/components/MenuItemImage.svelte";
+	import { api } from "$lib/api.js";
 
 	export let data;
 
@@ -21,12 +22,7 @@
 		saving = true;
 
 		try {
-			const res = await fetch("/api/menu", {
-				method: "PUT",
-				headers: { "content-type": "application/json" },
-				body: JSON.stringify(categories)
-			}).then((res) => res.json());
-
+			const res = await api.put("/menu", categories);
 			console.log(res);
 		} catch (error) {
 			console.error(error);
@@ -55,7 +51,8 @@
 								</div>
 								<input class="name" type="text" bind:value={item.name} />
 								<div class="price">
-									€ <input type="number" inputmode="numeric" bind:value={item.price} />
+									<input type="number" inputmode="numeric" bind:value={item.price} />
+									€
 								</div>
 							</div>
 							<div class="items__actions">
@@ -132,7 +129,7 @@
 
 			.details {
 				display: grid;
-				align-items: center;
+				align-items: flex-start;
 				gap: inherit;
 				grid-template-columns: auto 1fr;
 				grid-template-rows: auto auto;

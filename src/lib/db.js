@@ -13,5 +13,10 @@ export const db = {
 	/**
 	 * @type {import("mongodb").Collection<User>}
 	 */
-	users: database.collection("users")
+	users: database.collection("users"),
+
+	/**
+	 * @type {import("mongodb").Collection<Booking>}
+	 */
+	bookings: database.collection("bookings")
 };

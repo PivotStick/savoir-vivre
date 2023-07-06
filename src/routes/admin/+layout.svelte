@@ -7,7 +7,7 @@
 		nav.set([
 			{
 				href: "/admin",
-				icon: "fa-home"
+				icon: "fa-hand"
 			},
 			{
 				href: "/admin/menu",

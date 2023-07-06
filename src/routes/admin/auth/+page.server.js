@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { sign } from "jsonwebtoken";
-import { db } from "../../api/db.js";
+import { db } from "../../../lib/db.js";
 import { crypto } from "$lib/crypto.js";
 import { env } from "$env/dynamic/private";
 import { fail, redirect } from "@sveltejs/kit";
