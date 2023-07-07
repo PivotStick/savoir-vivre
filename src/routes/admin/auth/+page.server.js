@@ -1,5 +1,5 @@
 import { z } from "zod";
-import * as jwt from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 import { crypto } from "$lib/crypto.js";
 import { env } from "$env/dynamic/private";
 import { fail, redirect } from "@sveltejs/kit";

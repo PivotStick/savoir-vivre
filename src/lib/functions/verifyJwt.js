@@ -1,6 +1,6 @@
 import { env } from "$env/dynamic/private";
 import { db } from "$lib/db";
-import * as jwt from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 import { ObjectId } from "mongodb";
 
 /**
