@@ -1,5 +1,6 @@
 <script>
 	import { page } from "$app/stores";
+	import { snacks } from "$lib/components/Snacks.svelte";
 
 	export let data;
 
@@ -39,6 +40,7 @@
 			});
 
 			console.log(res);
+			snacks.success("Votre choix à bien été enregistré");
 		} catch (error) {
 			console.error(error);
 		} finally {

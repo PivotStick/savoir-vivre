@@ -2,11 +2,14 @@
 	import "@fortawesome/fontawesome-free/css/all.min.css";
 	import "../app.scss";
 	import { nav } from "$lib/stores/nav";
+	import Snacks from "$lib/components/Snacks.svelte";
 </script>
 
 <svelte:head>
 	<title>🍽️ Savoir Vivre 🍔</title>
 </svelte:head>
+
+<Snacks />
 
 <div class="layout">
 	<nav>
